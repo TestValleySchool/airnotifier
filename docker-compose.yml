@@ -2,8 +2,12 @@ version: '3'
 services:
         mongo:
                 image: "mongo"
+                expose:
+                       - "27017"
         app:
                 build: .
                 depends_on:
                         - "mongo"
+                ports:
+                        - "8801"
 

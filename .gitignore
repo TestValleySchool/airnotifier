@@ -2,3 +2,4 @@ airnotifier.conf
 logging.ini
 *.pyc
 .idea
+*.pem
