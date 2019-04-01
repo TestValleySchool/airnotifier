@@ -1,8 +1,14 @@
 #!/bin/sh
 
+ping -c 5 mongo
 
 # bootstrap if mongo database not initialised
-python install.py --mongohost=mongo 
+
+python is-db-init.py
+
+if [ $? -ne 0 ]; then
+	python install.py --mongohost=mongo 
+fi
 
 if [ ! -f cert.pem ]; then
 	# bootstrap keys

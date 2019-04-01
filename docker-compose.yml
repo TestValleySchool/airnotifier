@@ -9,5 +9,5 @@ services:
                 depends_on:
                         - "mongo"
                 ports:
-                        - "8801"
+                        - "8801:8801"
 
