@@ -124,6 +124,9 @@ class FCMClient(PushService):
         payload = self.build_request(token, alert, android, data, extra, apns)
         response = requests.post(self.endpoint, data=payload, headers=headers)
 
+	#_logger.info(payload)
+	#_logger.info(headers)
+
         if response.status_code >= 400:
             jsonError = response.json()
             _logger.info(jsonError)
