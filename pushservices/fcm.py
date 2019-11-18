@@ -54,7 +54,6 @@ class FCMClient(PushService):
 
             elif v is not None:
                 formatted[k] = str(v)
-
         return formatted
 
     def build_request(self, token, alert, android=None, data=None, extra=None, apns=None):
@@ -73,14 +72,24 @@ class FCMClient(PushService):
             }
         }
 
+
         if alert:
             payload["message"]["notification"] = self.format_values(alert)
+	    pass
 
         if data:
             payload["message"]["data"] = self.format_values(data)
 
         if android:
             payload["message"]["android"] = android
+	else:
+  	    payload["message"]["android"] = {} 
+
+	# add a click_action to ensure an intent is created and put the data in the android part of the payload
+	_logger.info("Adding android click action")
+	payload["message"]["android"]["notification"] = {}
+	payload["message"]["android"]["notification"]["click_action"] = "com.darryncampbell.cordova.plugin.intent.ACTION"
+	payload["message"]["android"]["data"] = { "uri": "tvsmoodlemobile://?redirect=https://intranet.testvalley.hants.sch.uk/moodle/mod/forum/view.php?id=46179" }
 
         if apns:
             payload["message"]["apns"] = apns
@@ -124,12 +133,13 @@ class FCMClient(PushService):
         payload = self.build_request(token, alert, android, data, extra, apns)
         response = requests.post(self.endpoint, data=payload, headers=headers)
 
-	#_logger.info(payload)
-	#_logger.info(headers)
+	_logger.info(payload)
+	_logger.info(headers)
 
         if response.status_code >= 400:
             jsonError = response.json()
             _logger.info(jsonError)
+            _logger.info(response)
             raise FCMException(jsonError["error"])
         return response
 
