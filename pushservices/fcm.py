@@ -95,6 +95,16 @@ class FCMClient(PushService):
 
         if apns:
             payload["message"]["apns"] = apns
+	else:
+	    _logger.info("No APNS payload")
+	    #payload["message"]["apns"] = {}
+
+	#payload["message"]["apns"]["aps"] = {}
+	#payload["message"]["apns"]["aps"]["alert"] = {}
+	#payload["message"]["apns"]["aps"]["alert"]["title"] = alert
+	#payload["message"]["apns"]["aps"]["alert"]["body"] = alert
+	#payload["message"]["apns"]["intent"] = data["extra"]["intent"]
+
 
         return json.dumps(payload)
 
