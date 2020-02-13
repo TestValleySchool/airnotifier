@@ -85,11 +85,13 @@ class FCMClient(PushService):
 	else:
   	    payload["message"]["android"] = {} 
 
+	_logger.info("Extra intent data is " + data["extra"]["intent"])
+
 	# add a click_action to ensure an intent is created and put the data in the android part of the payload
 	_logger.info("Adding android click action")
 	payload["message"]["android"]["notification"] = {}
 	payload["message"]["android"]["notification"]["click_action"] = "com.darryncampbell.cordova.plugin.intent.ACTION"
-	payload["message"]["android"]["data"] = { "uri": "tvsmoodlemobile://?redirect=https://intranet.testvalley.hants.sch.uk/moodle/mod/forum/view.php?id=46179" }
+	payload["message"]["android"]["data"] = { "uri": data["extra"]["intent"] }
 
         if apns:
             payload["message"]["apns"] = apns
